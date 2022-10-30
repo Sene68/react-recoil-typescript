@@ -1,6 +1,8 @@
 
 export default function TodoList() {
     return(
-        <div>Hi</div>
+        <div className="todo-template-block">
+            Hi
+        </div>
     );
 }
