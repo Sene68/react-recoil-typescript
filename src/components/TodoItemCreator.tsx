@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useSetRecoilState } from "recoil";
+import { todoListState } from "../recoil_state";
 import styled, { css } from 'styled-components';
 import { MdAdd } from 'react-icons/md';
 
@@ -10,6 +12,10 @@ interface CircleButtonProps {
 interface InputProps {
     value: string;
     onChange: any;
+}
+
+interface InputFormProps {
+    onSubmit: any;
 }
 
 
@@ -64,7 +70,7 @@ const InsertFormPositioner = styled.div`
   position: absolute;
 `;
 
-const InsertForm = styled.form`
+const InsertForm = styled.form<InputFormProps>`
   background: #f8f9fa;
   padding-left: 32px;
   padding-top: 32px;
@@ -86,14 +92,34 @@ const Input = styled.input<InputProps>`
   box-sizing: border-box;
 `;
 
+let id: number = 0;
+function getId() {
+  return id++;
+}
 
 function TodoItemCreator() {
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
+  const setTodoList = useSetRecoilState(todoListState);
 
   const onToggle = () => setOpen(!open);
 
+  const addItem = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setTodoList((oldTodoList) => [
+      ...oldTodoList,
+      {
+        id: getId(),
+        text: inputValue,
+        isComplete: false
+      }
+    ]);
+    setInputValue("");
+    setOpen(false);
+  };
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setInputValue(e.target.value);
   };
 
@@ -101,7 +127,7 @@ function TodoItemCreator() {
     <>
       {open && (
         <InsertFormPositioner>
-          <InsertForm>
+          <InsertForm onSubmit={addItem}>
             <Input autoFocus placeholder="할 일을 입력 후, Enter 를 누르세요" value={inputValue} onChange={onChange} />
           </InsertForm>
         </InsertFormPositioner>
