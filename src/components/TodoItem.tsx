@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
 import { MdDone, MdDelete } from 'react-icons/md';
 import { TodoListStateProp } from "../recoil_state";
@@ -10,6 +10,10 @@ interface CheckCircleProps {
 
 interface TextProps {
     done: boolean;
+}
+
+interface TodoitemProps {
+    item: TodoListStateProp;
 }
 
 const Remove = styled.div`
@@ -67,7 +71,7 @@ const Text = styled.div<TextProps>`
     `}
 `;
 
-function TodoItem(props: { item: TodoListStateProp }) {
+const TodoItem: FC<TodoitemProps> = ({ item }) => {
     const toggleItemCompletion = () => {
         console.log('toggle!');
     };
@@ -78,10 +82,10 @@ function TodoItem(props: { item: TodoListStateProp }) {
 
     return (
         <TodoItemBlock>
-          <CheckCircle done={props.item.isComplete} onClick={toggleItemCompletion}>
-            {props.item.isComplete && <MdDone />}
+          <CheckCircle done={item.isComplete} onClick={toggleItemCompletion}>
+            {item.isComplete && <MdDone />}
           </CheckCircle>
-          <Text done={props.item.isComplete}>{props.item.text}</Text>
+          <Text done={item.isComplete}>{item.text}</Text>
           <Remove>
             <MdDelete onClick={deleteItem} />
           </Remove>
