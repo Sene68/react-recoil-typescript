@@ -1,17 +1,17 @@
 import { atom, selector } from "recoil";
 
-export interface TodoListState {
+export interface TodoListStateProp {
     id: number;
     text: string;
     isComplete: boolean;
 }
 
-const todoListState = atom<TodoListState[]>({
+const todoListState = atom<TodoListStateProp[]>({
     key: "todoListState",
     default: []
 });
 
-const defaultTodoListState = selector<TodoListState[]>({
+const defaultTodoListState = selector<TodoListStateProp[]>({
     key: "defaultTodoListState",
     get: ({ get }) => {
         const list = get(todoListState);   

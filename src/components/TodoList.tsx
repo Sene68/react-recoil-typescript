@@ -1,10 +1,11 @@
 import TodoHead from "./TodoHead";
+import TodoItem from "./TodoItem";
 import TodoItemCreator from "./TodoItemCreator";
-import { defaultTodoListState } from "../recoil_state";
+import { TodoListStateProp, defaultTodoListState } from "../recoil_state";
 import { useRecoilValue } from "recoil";
 
 export default function TodoList() {
-    const todoList = useRecoilValue(defaultTodoListState);
+    const todoList = useRecoilValue<TodoListStateProp[]>(defaultTodoListState);
 
     return(
         <div className="todo-template-block">
@@ -12,8 +13,7 @@ export default function TodoList() {
             <div className="todo-list-block">
                 {todoList.map((todoItem) => (
                     <>
-                        <p>{todoItem.id}</p>
-                        <p>{todoItem.text}</p>
+                        <TodoItem item={todoItem} />
                     </>
                 ))}
             </div>
