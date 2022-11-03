@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
 const TodoHeadBlock = styled.div`
@@ -25,8 +25,7 @@ const TodoHeadBlock = styled.div`
   }
 `;
 
-
-function TodoHead() {
+const TodoHead: FC = () => {
   const totalUncompletedNum: number = 0;
 
   const today: Date = new Date();

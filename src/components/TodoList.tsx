@@ -1,10 +1,11 @@
+import React, { FC } from "react";
 import TodoHead from "./TodoHead";
 import TodoItem from "./TodoItem";
 import TodoItemCreator from "./TodoItemCreator";
 import { TodoListStateProp, defaultTodoListState } from "../recoil_state";
 import { useRecoilValue } from "recoil";
 
-export default function TodoList() {
+const TodoList: FC = () => {
     const todoList = useRecoilValue<TodoListStateProp[]>(defaultTodoListState);
 
     return(
@@ -21,3 +22,5 @@ export default function TodoList() {
         </div>
     );
 }
+
+export default TodoList;

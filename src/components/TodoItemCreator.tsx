@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { todoListState } from "../recoil_state";
 import styled, { css } from 'styled-components';
@@ -97,7 +97,7 @@ function getId() {
   return id++;
 }
 
-function TodoItemCreator() {
+const TodoItemCreator: FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const setTodoList = useSetRecoilState(todoListState);
