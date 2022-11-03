@@ -20,7 +20,20 @@ const defaultTodoListState = selector<TodoListStateProp[]>({
     },
 );
 
+const todoListStatsState = selector<number>({
+    key: "todoListStatsState",
+    get: ({ get }) => {
+      const todoList: TodoListStateProp[] = get(todoListState);
+      const totalNum: number = todoList.length;
+      const totalCompletedNum: number = todoList.filter((item: TodoListStateProp) => item.isComplete).length;
+      const totalUncompletedNum: number = totalNum - totalCompletedNum;
+
+      return totalUncompletedNum;
+    }
+});
+
 export { 
     todoListState,
-    defaultTodoListState
+    defaultTodoListState,
+    todoListStatsState
 };

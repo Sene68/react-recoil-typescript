@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from "recoil";
+import { todoListStatsState } from "../recoil_state";
 
 const TodoHeadBlock = styled.div`
   padding-top: 48px;
@@ -26,7 +28,7 @@ const TodoHeadBlock = styled.div`
 `;
 
 const TodoHead: FC = () => {
-  const totalUncompletedNum: number = 0;
+  const totalUncompletedNum: number = useRecoilValue<number>(todoListStatsState);
 
   const today: Date = new Date();
   const dateString: string = today.toLocaleDateString('ko-KR', {
