@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
 import { MdDone, MdDelete } from 'react-icons/md';
-import { TodoListStateProp } from "../recoil_state";
+import { useRecoilState } from "recoil";
+import { TodoListStateProp, todoListState } from "../recoil_state";
 
 interface CheckCircleProps {
     onClick: any;
@@ -71,9 +72,23 @@ const Text = styled.div<TextProps>`
     `}
 `;
 
+
+const replaceItemAtIndex = (arr: TodoListStateProp[], index: number, newValue: TodoListStateProp) => {
+  return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
+};
+
+
 const TodoItem: FC<TodoitemProps> = ({ item }) => {
+    const [todoList, setTodoList] = useRecoilState<TodoListStateProp[]>(todoListState);
+    const index: number = todoList.findIndex((listItem: TodoListStateProp) => listItem === item);
+
     const toggleItemCompletion = () => {
-        console.log('toggle!');
+        const newList = replaceItemAtIndex(todoList, index, {
+          ...item,
+          isComplete: !item.isComplete
+        });
+    
+        setTodoList(newList);
     };
 
     const deleteItem = () => {
