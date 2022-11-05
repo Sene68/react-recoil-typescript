@@ -77,13 +77,17 @@ const replaceItemAtIndex = (arr: TodoListStateProp[], index: number, newValue: T
   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
 };
 
+const removeItemAtIndex = (arr: TodoListStateProp[], index: number) => {
+  return [...arr.slice(0, index), ...arr.slice(index + 1)];
+};
+
 
 const TodoItem: FC<TodoitemProps> = ({ item }) => {
     const [todoList, setTodoList] = useRecoilState<TodoListStateProp[]>(todoListState);
     const index: number = todoList.findIndex((listItem: TodoListStateProp) => listItem === item);
 
     const toggleItemCompletion = () => {
-        const newList = replaceItemAtIndex(todoList, index, {
+        const newList: TodoListStateProp[] = replaceItemAtIndex(todoList, index, {
           ...item,
           isComplete: !item.isComplete
         });
@@ -92,7 +96,8 @@ const TodoItem: FC<TodoitemProps> = ({ item }) => {
     };
 
     const deleteItem = () => {
-        console.log('delete!');
+        const newList: TodoListStateProp[] = removeItemAtIndex(todoList, index);
+        setTodoList(newList);
     };
 
     return (
