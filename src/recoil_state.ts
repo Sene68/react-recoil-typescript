@@ -11,6 +11,11 @@ const todoListState = atom<TodoListStateProp[]>({
     default: []
 });
 
+const todoListFilterState = atom<string>({
+    key: "todoListFilterState",
+    default: "Show All"
+});
+
 const defaultTodoListState = selector<TodoListStateProp[]>({
     key: "defaultTodoListState",
     get: ({ get }) => {
@@ -32,8 +37,27 @@ const todoListStatsState = selector<number>({
     }
 });
 
+const filteredTodoListState = selector<TodoListStateProp[]>({
+    key: "filteredTodoListState",
+    get: ({ get }) => {
+      const filter: string = get(todoListFilterState);
+      const list: TodoListStateProp[] = get(todoListState);
+  
+      switch (filter) {
+        case "Show Completed":
+          return list.filter((item: TodoListStateProp) => item.isComplete);
+        case "Show Uncompleted":
+          return list.filter((item: TodoListStateProp) => !item.isComplete);
+        default:
+          return list;
+      }
+    },
+});
+
 export { 
     todoListState,
+    todoListFilterState,
     defaultTodoListState,
-    todoListStatsState
+    todoListStatsState,
+    filteredTodoListState
 };
